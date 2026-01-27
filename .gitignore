@@ -17,7 +17,7 @@ application-dev.properties
 
 # i am adding this file after pushing the code without password
 # Application config
-#src/main/resources/application.properties
+
 
 #
 src/main/resources/application-local.properties
