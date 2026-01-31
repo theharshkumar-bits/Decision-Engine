@@ -71,12 +71,12 @@ public class RuleService {
         existingRule.setWeight(updatedRule.getWeight());
         existingRule.setActive(updatedRule.isActive());
 
-        ruleCache.refresh();
+
         RuleEntity updaterule= ruleRepository.save(existingRule);  //save perform update not new rule because of existing id
                                                    //no no , no because of id here internally save method will check the id is present or not if it is present then it is update otherwise create new id
                                                    //but here before creating new id(if not present) and throwing error
                                                    //so save perform update here not creating new rule here
-
+        ruleCache.refresh();
         return updaterule;
     }
 
