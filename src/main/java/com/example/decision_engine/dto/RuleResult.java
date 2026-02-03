@@ -10,6 +10,9 @@ public class RuleResult {
 
     //for rule validation
     private String status;
+    private String errorMessage;
+
+    //getter and setter
 
     public String getStatus() {
         return status;
@@ -27,10 +30,8 @@ public class RuleResult {
         this.errorMessage = errorMessage;
     }
 
-    private String errorMessage;
 
 
-    //getter and setter
 
 
     public String getRuleName() {

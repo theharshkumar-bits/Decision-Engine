@@ -20,7 +20,15 @@ public class Candidate {
          return experience;
      }
 
-//for dynamic like
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public void setSkillCount(int skillCount) {
+        this.skillCount = skillCount;
+    }
+
+    //for dynamic like
 /*
 #candidate.skillCount >= 3 ? 15 : 0
 #candidate.location == 'India' ? 10 : 0

@@ -19,6 +19,6 @@ public class CacheController {
     @PostMapping("/refresh")
     public ResponseEntity<String> refreshCache(){
         ruleCache.refresh();
-        return ResponseEntity.ok("Rule Cache Refreshed Successfully");
+        return ResponseEntity.ok("Rule Cache Refreshed Successfully");  //for giving response with message
     }
 }

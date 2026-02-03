@@ -68,6 +68,9 @@ public class RuleEvaluationEngine {
         for (RuleEntity rule : cachedRules) {
             if (!rule.isActive()) continue;
             RuleResult result = new RuleResult();
+            result.setRuleName(rule.getName());
+
+            result.setExpression(rule.getExpression());
 
             //try block for stoping crashing of application due to wrong expression now if any rule failed that will be skipped effectively and application will not stop
             try {
@@ -84,10 +87,10 @@ public class RuleEvaluationEngine {
 
                 totalScore += score;          //not affected in case of error occur due to wrong expression
 
-                result.setRuleName(rule.getName());
+//                result.setRuleName(rule.getName());
                 result.setScore(score);
-                result.setExpression(rule.getExpression());
-
+//                result.setExpression(rule.getExpression());
+                result.setErrorMessage("No Error");
                 result.setStatus("SUCCESS");
 
             } catch (Exception e) {
