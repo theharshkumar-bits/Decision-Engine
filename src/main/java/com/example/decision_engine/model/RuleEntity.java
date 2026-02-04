@@ -20,6 +20,16 @@ public class RuleEntity {
     private int weight;
 
     private boolean active;   ///for feature toggling
+    // adding priority
+    private Integer priority; // changed int to Integer  because int can't store null for already store data in database for this column for existing row value will be null
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
 
     //getters  setters  @Data (automatically work for getter and setter Lombok Shortcut)
     public Long getId() {
