@@ -59,13 +59,18 @@ public class RuleEvaluationEngine {
 
         //every evaluation i am hitting the db not good for large ex 10k/sec request at a time
 //        List<RuleEntity> rules = ruleRepository.findAll();
+        List<RuleEntity> rules = new ArrayList<>(ruleCache.getCache()); //for creating own copy so that sorting for this object will not affect to others in future
 
         /// Score Tracking
         List<RuleResult> breakdown = new ArrayList<>(); //we can directly create here DecisionReport and for each result we can add using .add(result) but for using DecisionReport setter method we create extra data-structure
         int totalScore = 0;
         cachedRules = ruleCache.getCache();
+        //for evaluating according to priority
+//        cachedRules.sort((r1, r2) -> Integer.compare(r1.getPriority(), r2.getPriority()));
+        rules.sort((r1, r2) -> r1.getPriority().compareTo(r2.getPriority()));   //Priority 1 runs first
 
-        for (RuleEntity rule : cachedRules) {
+
+        for (RuleEntity rule : rules) {   //now iterating in own copy of rules with priority
             if (!rule.isActive()) continue;
             RuleResult result = new RuleResult();
             result.setRuleName(rule.getName());
