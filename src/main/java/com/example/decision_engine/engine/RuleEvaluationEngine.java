@@ -59,7 +59,7 @@ public class RuleEvaluationEngine {
 
         //every evaluation i am hitting the db not good for large ex 10k/sec request at a time
 //        List<RuleEntity> rules = ruleRepository.findAll();
-        List<RuleEntity> rules = new ArrayList<>(ruleCache.getCache()); //for creating own copy so that sorting for this object will not affect to others in future
+        List<RuleEntity> rules = new ArrayList<>(ruleCache.getCache()); //for creating own copy so that sorting for this object will not effect to others in future
 
         /// Score Tracking
         List<RuleResult> breakdown = new ArrayList<>(); //we can directly create here DecisionReport and for each result we can add using .add(result) but for using DecisionReport setter method we create extra data-structure
@@ -90,10 +90,18 @@ public class RuleEvaluationEngine {
                 Integer score = expression.getValue(context, Integer.class);
                 //Integer.class - >The Class object that represents Integer type
 
-                totalScore += score;          //not affected in case of error occur due to wrong expression
+//                totalScore += score;          //not affected in case of error occur due to wrong expression
 
 //                result.setRuleName(rule.getName());
+
+                //now calculating score including with weight
+                int weight = rule.getWeight();
+                int weightedScore = score*weight;
+                totalScore+= weightedScore;
+
                 result.setScore(score);
+                result.setWeight(weight);
+                result.setWeightedScore(weightedScore);
 //                result.setExpression(rule.getExpression());
                 result.setErrorMessage("No Error");
                 result.setStatus("SUCCESS");
@@ -113,6 +121,19 @@ public class RuleEvaluationEngine {
         DecisionReport report = new DecisionReport();
         report.setFinalScore(totalScore);
         report.setBreakdown(breakdown);
+
+        //for decision
+        String decision;
+
+        if (totalScore >= 100) {
+            decision = "ACCEPT";
+        } else if (totalScore >= 60) {
+            decision = "HOLD";
+        } else {
+            decision = "REJECT";
+        }
+        report.setDecision(decision);
+
 
         return report;
 

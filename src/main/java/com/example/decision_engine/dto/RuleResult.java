@@ -12,7 +12,27 @@ public class RuleResult {
     private String status;
     private String errorMessage;
 
-    //getter and setter
+    //adding weight for calculating the score
+    private int weight;
+    private int weightedScore;
+
+//getter and setter
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getWeightedScore() {
+        return weightedScore;
+    }
+
+    public void setWeightedScore(int weightedScore) {
+        this.weightedScore = weightedScore;
+    }
 
     public String getStatus() {
         return status;

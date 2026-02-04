@@ -6,6 +6,8 @@ import java.util.List;
 
 public class DecisionReport {
     private int finalScore;
+    //for making DECISION like ACCEPT, HOLD, REJECT
+    private String decision;
     private List<RuleResult> breakdown;
 
     //getters and setters
@@ -25,5 +27,13 @@ public class DecisionReport {
 
     public void setBreakdown(List<RuleResult> breakdown) {
         this.breakdown = breakdown;
+    }
+
+    public String getDecision() {
+        return decision;
+    }
+
+    public void setDecision(String decision) {
+        this.decision = decision;
     }
 }
