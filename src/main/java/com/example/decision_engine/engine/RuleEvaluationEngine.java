@@ -122,6 +122,19 @@ public class RuleEvaluationEngine {
         report.setFinalScore(totalScore);
         report.setBreakdown(breakdown);
 
+        //for decision
+        String decision;
+
+        if (totalScore >= 100) {
+            decision = "ACCEPT";
+        } else if (totalScore >= 60) {
+            decision = "HOLD";
+        } else {
+            decision = "REJECT";
+        }
+        report.setDecision(decision);
+
+
         return report;
 
     }
