@@ -9,7 +9,10 @@ import com.example.decision_engine.cache.RuleCache;
 import com.example.decision_engine.dto.DecisionReport;
 import com.example.decision_engine.dto.RuleResult;
 import com.example.decision_engine.model.Candidate;
+import com.example.decision_engine.model.EvaluationReportEntity;
 import com.example.decision_engine.model.RuleEntity;
+import com.example.decision_engine.model.RuleResultEntity;
+import com.example.decision_engine.repository.EvaluationReportRepository;
 import com.example.decision_engine.repository.RuleRepository;
 //import org.springframework.expression.*;
 //import org.springframework.expression.spel;
@@ -20,6 +23,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +48,13 @@ public class RuleEvaluationEngine {
 //        this.ruleRepository =ruleRepository;
 //    }
 
+    //for finalEvaluationReport Dabase
+    private final EvaluationReportRepository reportRepository;
+
     //for cache
-    RuleEvaluationEngine(RuleCache ruleCache) {
+    RuleEvaluationEngine(RuleCache ruleCache, EvaluationReportRepository reportRepository) {
         this.ruleCache = ruleCache;
+        this.reportRepository= reportRepository;
     }
 
 //    @PostConstruct    // means this method will run only once after object creation of RuleEvaluationEngine class
@@ -133,8 +141,27 @@ public class RuleEvaluationEngine {
             decision = "REJECT";
         }
         report.setDecision(decision);
+//=============================================
+        /// creating evaluation report for storing in database
 
+        EvaluationReportEntity entity = new EvaluationReportEntity();
+        entity.setFinalScore(totalScore);
+        entity.setCreatedAt(LocalDateTime.now());
 
+        List<RuleResultEntity> ruleResultEntities = new ArrayList<>();
+        for(RuleResult r : breakdown){
+            RuleResultEntity re = new RuleResultEntity();
+            re.setRuleName(r.getRuleName());
+            re.setScore(r.getScore());
+            re.setExpression(r.getExpression());
+            re.setStatus(r.getStatus());
+            re.setErrorMessage(r.getErrorMessage());
+            re.setReport(entity);
+            ruleResultEntities.add(re);
+        }
+        entity.setResults(ruleResultEntities);
+        reportRepository.save(entity);
+ //==========================================
         return report;
 
     }
