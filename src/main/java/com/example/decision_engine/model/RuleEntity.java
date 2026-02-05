@@ -2,6 +2,8 @@ package com.example.decision_engine.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name="rules")
@@ -23,6 +25,42 @@ public class RuleEntity {
     // adding priority
     private Integer priority; // changed int to Integer  because int can't store null for already store data in database for this column for existing row value will be null
 
+    //for rule versioning
+    private Integer version;
+    private LocalDateTime effectiveFrom;
+    private LocalDateTime effectiveTo;
+
+
+    //getters  setters  @Data (automatically work for getter and setter Lombok Shortcut)
+
+    public LocalDateTime getEffectiveTo() {
+        return effectiveTo;
+    }
+
+    public void setEffectiveTo(LocalDateTime effectiveTo) {
+        this.effectiveTo = effectiveTo;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public LocalDateTime getEffectiveFrom() {
+        return effectiveFrom;
+    }
+
+    public void setEffectiveFrom(LocalDateTime effectiveFrom) {
+        this.effectiveFrom = effectiveFrom;
+    }
+
+
+
+
+
     public Integer getPriority() {
         return priority;
     }
@@ -31,7 +69,6 @@ public class RuleEntity {
         this.priority = priority;
     }
 
-    //getters  setters  @Data (automatically work for getter and setter Lombok Shortcut)
     public Long getId() {
         return id;
     }
