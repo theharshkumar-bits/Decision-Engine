@@ -19,9 +19,17 @@ public class EnginTestController {
         this.ruleEvaluationEngine = ruleEvaluationEngine;
     }
 
-    @PostMapping("/evaluate")
-    public DecisionReport evaluate(@RequestBody Candidate candidate) {
-        return ruleEvaluationEngine.evaluate(candidate);
-    }
+//    @PostMapping("/evaluate")
+//    public DecisionReport evaluate(@RequestBody Candidate candidate) {
+//        return ruleEvaluationEngine.evaluate(candidate);
+//    }
 
+    //updating for checking any rule without deploying them with inactive feature
+    @PostMapping("/evaluate")
+    public DecisionReport evaluate(@RequestBody Candidate candidate, @RequestParam(defaultValue = "false") boolean simulation) {
+        return ruleEvaluationEngine.evaluate(candidate,simulation);
+    }
 }
+
+
+

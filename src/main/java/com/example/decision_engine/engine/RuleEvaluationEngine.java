@@ -63,7 +63,8 @@ public class RuleEvaluationEngine {
 //        System.out.println("all rules Cached : "+cachedRules.size());
 //    }
 
-    public DecisionReport evaluate(Candidate candidate) {
+    //changing method signature for adding simulation mode
+    public DecisionReport evaluate(Candidate candidate, boolean simulation) {
 
         //every evaluation i am hitting the db not good for large ex 10k/sec request at a time
 //        List<RuleEntity> rules = ruleRepository.findAll();
@@ -82,8 +83,9 @@ public class RuleEvaluationEngine {
         for (RuleEntity rule : rules) {   //now iterating in own copy of rules with priority
 
             //for status
-            if (!rule.isActive()) continue;
-
+//            if (!rule.isActive()) continue;
+            //for simulation mode
+            if (!simulation && !rule.isActive()) continue;
 
             //for versioning - skips rules not valid at current time.
             LocalDateTime now = LocalDateTime.now();
@@ -174,5 +176,9 @@ public class RuleEvaluationEngine {
  //==========================================
         return report;
 
+    }
+    //for backward compatibility
+    public DecisionReport evaluate(Candidate candidate) {
+        return evaluate(candidate, false);
     }
 }
